@@ -19,13 +19,39 @@ namespace BusinessManager
 
         public async Task<bool> UpdateTaskDescription(int taskId, string description)
         {
-            var userTask = await _taskRepository.UpdateTaskDescription(taskId, description);
+            var userTask = await _taskRepository.UpdateTask(taskId, description, string.Empty);
             return userTask != null;
         }
 
         public async Task<bool> DeleteTask(int taskId)
         {
             return await _taskRepository.DeleteTask(taskId);
+        }
+
+        public async Task<bool> UpdateTaskStatus(int taskId, string status)
+        {
+            var userTask = await _taskRepository.UpdateTask(taskId, string.Empty, status);
+            return userTask != null;
+        }
+
+        public async Task<List<UserTask>> GetTaskList()
+        {
+            return await _taskRepository.GetAllTasks();
+        }
+
+        public async Task<List<UserTask>> GetTaskListByStatus(string status)
+        {
+            if (IsStatusValid(status))
+            {
+                return await _taskRepository.GetTasksByStatus(status);
+            }
+
+            return new List<UserTask>();
+        }
+
+        private bool IsStatusValid(string status)
+        {
+            return status == Constants.InProgress || status == Constants.ToDo || status == Constants.Done;
         }
     }
 }

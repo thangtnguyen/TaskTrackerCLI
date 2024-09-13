@@ -31,9 +31,26 @@ namespace BusinessManager
             return await _dataAccess.DeleteUserTaskAsync(id);
         }
 
-        public async Task<UserTask?> UpdateTaskDescription(int id, string description)
+        public async Task<List<UserTask>> GetAllTasks()
         {
-            return await _dataAccess.UpdateDescriptionUserTaskAsync(id, description);
+            return await _dataAccess.GetUserTaskList();
+        }
+
+        public async Task<List<UserTask>> GetTasksByStatus(string status)
+        {
+            return await _dataAccess.GetUserTaskByStatus(status);
+        }
+
+        public async Task<UserTask?> UpdateTask(int id, string description, string status)
+        {
+            UserTask userTask = new UserTask()
+            {
+                Id = id,
+                Description = description,
+                Status = status
+            };
+
+            return await _dataAccess.UpdateTaskAsync(userTask);
         }
     }
 }

@@ -113,9 +113,11 @@ namespace DataAccess
             return false;
         }
 
-        public Task<List<UserTask>> GetUserTaskByStatus(string status)
+        public async Task<List<UserTask>> GetUserTaskByStatus(string status)
         {
-            throw new NotImplementedException();
+            var allTasks = await GetUserTaskList();
+
+            return allTasks.FindAll(p => p.Status == status);
         }
 
         public async Task<List<UserTask>> GetUserTaskList()
@@ -142,29 +144,33 @@ namespace DataAccess
             return new List<UserTask>();
         }
 
-        public async Task<UserTask?> UpdateDescriptionUserTaskAsync(int id, string description)
+        public async Task<UserTask?> UpdateTaskAsync(UserTask userTask)
         {
             UserTask? result = null;
 
             var userTaskList = await GetUserTaskList();
             if (userTaskList != null && userTaskList.Count > 0)
             {
-                result = userTaskList.FirstOrDefault(p => p.Id == id);
+                result = userTaskList.FirstOrDefault(p => p.Id == userTask.Id);
                 if (result != null)
                 {
-                    result.Description = description;
+                    if (!string.IsNullOrEmpty(userTask.Description))
+                    {
+                        result.Description = userTask.Description;
+                    }
+                    if (!string.IsNullOrEmpty(userTask.Status))
+                    {
+                        result.Status = userTask.Status;
+                    }
+                    result.UpdateAt = DateTime.Now;
+                    
                     UpdateToFile(userTaskList);
 
                     return result;
                 }
             }
-             
-            return result;
-        }
 
-        public Task<UserTask?> UpdateStatusUserTask(int id, string status)
-        {
-            throw new NotImplementedException();
+            return result;
         }
     }
 }
