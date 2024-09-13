@@ -12,7 +12,7 @@ namespace BusinessManager
             _dataAccess = dataAccess;
         }
 
-        public async Task<UserTask> AddTask(string description)
+        public UserTask AddTask(string description)
         {
             UserTask newTask = new UserTask()
             {
@@ -23,25 +23,25 @@ namespace BusinessManager
                 Id = 0
             };
 
-            return await _dataAccess.CreateUserTaskAsync(newTask);
+            return _dataAccess.CreateUserTask(newTask);
         }
 
-        public async Task<bool> DeleteTask(int id)
+        public bool DeleteTask(int id)
         {
-            return await _dataAccess.DeleteUserTaskAsync(id);
+            return _dataAccess.DeleteUserTask(id);
         }
 
-        public async Task<List<UserTask>> GetAllTasks()
+        public List<UserTask> GetAllTasks()
         {
-            return await _dataAccess.GetUserTaskList();
+            return _dataAccess.GetUserTaskList();
         }
 
-        public async Task<List<UserTask>> GetTasksByStatus(string status)
+        public List<UserTask> GetTasksByStatus(string status)
         {
-            return await _dataAccess.GetUserTaskByStatus(status);
+            return _dataAccess.GetUserTaskByStatus(status);
         }
 
-        public async Task<UserTask?> UpdateTask(int id, string description, string status)
+        public UserTask? UpdateTask(int id, string description, string status)
         {
             UserTask userTask = new UserTask()
             {
@@ -50,7 +50,7 @@ namespace BusinessManager
                 Status = status
             };
 
-            return await _dataAccess.UpdateTaskAsync(userTask);
+            return _dataAccess.UpdateTask(userTask);
         }
     }
 }

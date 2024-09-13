@@ -2,10 +2,10 @@
 {
     public interface ITaskDataAccess
     {
-        Task<UserTask> CreateUserTaskAsync(UserTask userTask);        
-        Task<bool> DeleteUserTaskAsync(int id);
-        Task<List<UserTask>> GetUserTaskList();
-        Task<List<UserTask>> GetUserTaskByStatus(string status);
-        Task<UserTask?> UpdateTaskAsync(UserTask userTask);
+        UserTask CreateUserTask(UserTask userTask);        
+        bool DeleteUserTask(int id);
+        List<UserTask> GetUserTaskList();
+        List<UserTask> GetUserTaskByStatus(string status);
+        UserTask? UpdateTask(UserTask userTask);
     }
 }

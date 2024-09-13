@@ -11,39 +11,39 @@ namespace BusinessManager
             _taskRepository = taskRepository;
         }
 
-        public async Task<int> AddTask(string description)
+        public int AddTask(string description)
         {
-            var userTask = await _taskRepository.AddTask(description);
+            var userTask = _taskRepository.AddTask(description);
             return userTask.Id;
         }
 
-        public async Task<bool> UpdateTaskDescription(int taskId, string description)
+        public bool UpdateTaskDescription(int taskId, string description)
         {
-            var userTask = await _taskRepository.UpdateTask(taskId, description, string.Empty);
+            var userTask = _taskRepository.UpdateTask(taskId, description, string.Empty);
             return userTask != null;
         }
 
-        public async Task<bool> DeleteTask(int taskId)
+        public bool DeleteTask(int taskId)
         {
-            return await _taskRepository.DeleteTask(taskId);
+            return _taskRepository.DeleteTask(taskId);
         }
 
-        public async Task<bool> UpdateTaskStatus(int taskId, string status)
+        public bool UpdateTaskStatus(int taskId, string status)
         {
-            var userTask = await _taskRepository.UpdateTask(taskId, string.Empty, status);
+            var userTask = _taskRepository.UpdateTask(taskId, string.Empty, status);
             return userTask != null;
         }
 
-        public async Task<List<UserTask>> GetTaskList()
+        public List<UserTask> GetTaskList()
         {
-            return await _taskRepository.GetAllTasks();
+            return _taskRepository.GetAllTasks();
         }
 
-        public async Task<List<UserTask>> GetTaskListByStatus(string status)
+        public List<UserTask> GetTaskListByStatus(string status)
         {
             if (IsStatusValid(status))
             {
-                return await _taskRepository.GetTasksByStatus(status);
+                return _taskRepository.GetTasksByStatus(status);
             }
 
             return new List<UserTask>();

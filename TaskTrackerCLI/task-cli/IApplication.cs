@@ -2,6 +2,6 @@
 {
     public interface IApplication
     {
-        Task HandleBusiness(string[] arguments);
+        void HandleBusiness(string[] arguments);
     }
 }

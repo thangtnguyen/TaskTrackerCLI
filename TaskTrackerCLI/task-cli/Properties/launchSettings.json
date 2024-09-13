@@ -2,7 +2,7 @@
   "profiles": {
     "task-cli": {
       "commandName": "Project",
-      "commandLineArgs": "add \"Task 2\""
+      "commandLineArgs": "list"
     }
   }
 }

@@ -17,13 +17,13 @@ namespace DataAccess
             _filePath = Path.Combine(_fileDataSourceOptions.FilePath, _fileDataSourceOptions.FileName);
         }
 
-        public async Task<UserTask> CreateUserTaskAsync(UserTask userTask)
+        public UserTask CreateUserTask(UserTask userTask)
         {
             // Get new User Task Id
-            userTask.Id = await GetTaskId();
+            userTask.Id = GetTaskId();
 
             //Insert new user task
-            var userTaskList = await GetUserTaskList();
+            var userTaskList = GetUserTaskList();
             if (userTaskList != null)
             {
                 userTaskList.Add(userTask);
@@ -69,11 +69,11 @@ namespace DataAccess
             }
         }
 
-        private async Task<int> GetTaskId()
+        private int GetTaskId()
         {
             if (File.Exists(_filePath))
             {
-                string tasksFromJsonFileInString = await File.ReadAllTextAsync(_filePath);
+                string tasksFromJsonFileInString = File.ReadAllText(_filePath);
                 if (!string.IsNullOrEmpty(tasksFromJsonFileInString))
                 {
                     try
@@ -95,9 +95,9 @@ namespace DataAccess
             return 1;
         }
 
-        public async Task<bool> DeleteUserTaskAsync(int id)
+        public bool DeleteUserTask(int id)
         {
-            var userTaskList = await GetUserTaskList();
+            var userTaskList = GetUserTaskList();
             if (userTaskList != null && userTaskList.Count > 0)
             {
                 var existingTask = userTaskList.FirstOrDefault(p => p.Id == id);
@@ -113,20 +113,20 @@ namespace DataAccess
             return false;
         }
 
-        public async Task<List<UserTask>> GetUserTaskByStatus(string status)
+        public List<UserTask> GetUserTaskByStatus(string status)
         {
-            var allTasks = await GetUserTaskList();
+            var allTasks = GetUserTaskList();
 
             return allTasks.FindAll(p => p.Status == status);
         }
 
-        public async Task<List<UserTask>> GetUserTaskList()
+        public List<UserTask> GetUserTaskList()
         {
 
             if (File.Exists(_filePath))
             {
 
-                string tasksFromJsonFileInString = await File.ReadAllTextAsync(_filePath);
+                string tasksFromJsonFileInString = File.ReadAllText(_filePath);
                 if (!string.IsNullOrEmpty(tasksFromJsonFileInString))
                 {
                     try
@@ -144,11 +144,11 @@ namespace DataAccess
             return new List<UserTask>();
         }
 
-        public async Task<UserTask?> UpdateTaskAsync(UserTask userTask)
+        public UserTask? UpdateTask(UserTask userTask)
         {
             UserTask? result = null;
 
-            var userTaskList = await GetUserTaskList();
+            var userTaskList = GetUserTaskList();
             if (userTaskList != null && userTaskList.Count > 0)
             {
                 result = userTaskList.FirstOrDefault(p => p.Id == userTask.Id);
